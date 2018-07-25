@@ -1,8 +1,10 @@
 const express = require("express");
-const MW = require("morgan")
+const MW = require("morgan");
+const ERROR_MW = require("./error_middleware.js");
 const app = express();
 
-app.use(MW("common"))
+app.use(MW("common"));
+app.use(ERROR_MW);
 app
     .get("/hihi", (req, res) => {
         const query = req.query;
