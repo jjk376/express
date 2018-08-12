@@ -4,10 +4,16 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-      "start": "node index.js"
+    "start": "node index.js",
+    "test": "mocha test/app.js"
   },
   "dependencies": {
     "express": "^4.16.3",
     "morgan": "^1.9.0"
+  },
+  "devDependencies": {
+    "mocha": "^5.2.0",
+    "should": "^13.2.3",
+    "supertest": "^3.1.0"
   }
 }
