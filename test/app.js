@@ -1,5 +1,6 @@
 const should = require('should');
 const request = require('supertest');
+const qs = require('querystring');
 const app = require('../app.js');
 
 describe('GET /hello', function () {
@@ -28,7 +29,7 @@ describe('GET /hihi', function () {
 	});
 });
 
-describe('GET /hihi with query like', () =>{
+describe('GET /hihi with query like', () => {
     it('?abc=john then respond with john', function() {
         return request(app)
               .get('/hihi')
@@ -40,6 +41,19 @@ describe('GET /hihi with query like', () =>{
                   should.equal(text, 'abc=john');
               })
     });
+
+	it('?abc=정재경 then respond with 정재경', function() {
+		return request(app)
+			  .get('/hihi')
+			  .query({abc: '정재경'})
+			  .set('Accept', 'text/html')
+			  .expect(200)
+			  .then(res => {
+				  const text = res.text;
+				  should.equal(text, 'abc=정재경');
+			  })
+	});
+
     it('?abc=??!@@ then respond with ??!@@', function() {
         return request(app)
               .get('/hihi')
@@ -73,6 +87,19 @@ describe('GET /hihi with param', () => {
               .then(res => {
                   const text = res.text;
                   should.equal(text, '123');
+              })
+    });
+    it('정재경 then respond with 정재경', function() {
+		const jjk = encodeURIComponent('정재경');
+
+        return request(app)
+              .get(`/hihi/${jjk}`)
+              .set('Accept', 'text/html')
+              .expect(200)
+              .then(res => {
+                  const text = res.text;
+				  console.log(text);
+                  should.equal(text, '정재경');
               })
     });
     it('??!@#@ then respond with intro', function() {
